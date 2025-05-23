@@ -8,10 +8,10 @@ canvas {
 
 
 :root {
-  --dark-bg: rgba(15, 15, 15, 0.95);
+  --dark-bg: rgba(99, 99, 99, 0.95);
   --spacing: 350px;
 
-  font-family: brandon-grotesque, sans-serif;
+  font-family: brandon-grotesque, serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -31,8 +31,8 @@ main {
 }
 
 h1, h2, h3, blockquote {
-  font-family: elevon, sans-serif;
-  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 500;
   font-style: normal;
 }
 
@@ -69,7 +69,7 @@ canvas {
   }
 
   blockquote p {
-    color: black;
+    color: rgb(185, 185, 185);
     background-color: white;
     font-size: 4rem;
     display: inline;
