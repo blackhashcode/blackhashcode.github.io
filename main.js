@@ -1,130 +1,170 @@
 import './style.css';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-// Setup
-
+// Scene setup
 const scene = new THREE.Scene();
-
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg'),
-});
+const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true });
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 camera.position.setX(-3);
 
-renderer.render(scene, camera);
+// Lighting
+const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+pointLight.position.set(10, 10, 10);
+scene.add(pointLight);
+scene.add(new THREE.AmbientLight(0x404040, 2));
 
-// Torus
+// Background
+scene.background = new THREE.TextureLoader().load('space.jpg');
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
-const torus = new THREE.Mesh(geometry, material);
-
-scene.add(torus);
-
-// Lights
-
-const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(5, 5, 5);
-
-const ambientLight = new THREE.AmbientLight(0xffffff);
-scene.add(pointLight, ambientLight);
-
-// Helpers
-
-// const lightHelper = new THREE.PointLightHelper(pointLight)
-// const gridHelper = new THREE.GridHelper(200, 50);
-// scene.add(lightHelper, gridHelper)
-
-// const controls = new OrbitControls(camera, renderer.domElement);
-
+// Stars
 function addStar() {
-  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const geometry = new THREE.SphereGeometry(0.15, 24, 24);
   const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
   const star = new THREE.Mesh(geometry, material);
-
-  const [x, y, z] = Array(3)
-    .fill()
-    .map(() => THREE.MathUtils.randFloatSpread(100));
-
+  const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(200));
   star.position.set(x, y, z);
   scene.add(star);
 }
+Array(300).fill().forEach(addStar);
 
-Array(200).fill().forEach(addStar);
-
-// Background
-
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
-scene.background = spaceTexture;
-
-// Avatar
-
-const jeffTexture = new THREE.TextureLoader().load('im_uzi_2.png');
-
-const jeff = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: jeffTexture }));
-
-scene.add(jeff);
-
-// Moon
-
-const moonTexture = new THREE.TextureLoader().load('moon.jpg');
-const normalTexture = new THREE.TextureLoader().load('normal.jpg');
-
-const moon = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 32, 32),
-  new THREE.MeshStandardMaterial({
-    map: moonTexture,
-    normalMap: normalTexture,
-  })
+// Avatar (optional)
+const avatarTexture = new THREE.TextureLoader().load('im_uzi_2.png');
+const avatar = new THREE.Mesh(
+  new THREE.BoxGeometry(3, 3, 3),
+  new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
+avatar.position.set(2, -2, -5);
+scene.add(avatar);
 
-scene.add(moon);
+// Loaders and groups
+const loader = new GLTFLoader();
+const virusGroup = new THREE.Group();
+const pcGroup = new THREE.Group();
+const orbitViruses = [];
+const orbitOS = [];
 
-moon.position.z = 30;
-moon.position.setX(-10);
+// Central Virus + Orbiting Viruses
+loader.load('model/virus.glb', (gltf) => {
+  const virusMain = gltf.scene;
+  virusMain.scale.set(4, 4, 4);
+  virusGroup.add(virusMain);
 
-jeff.position.z = -5;
-jeff.position.x = 2;
+  for (let i = 0; i < 5; i++) {
+    const orbit = new THREE.Group();
+    loader.load('model/virus.glb', (cloneGltf) => {
+      const miniVirus = cloneGltf.scene;
+      miniVirus.scale.set(1.2, 1.2, 1.2);
+      miniVirus.traverse((child) => {
+        if (child.isMesh) {
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0xff4444,
+            emissive: 0xff0000,
+            emissiveIntensity: 0.8,
+          });
+        }
+      });
+      miniVirus.position.set(5, 0, 0);
+      orbit.add(miniVirus);
 
-// Scroll Animation
+      const pointLight = new THREE.PointLight(0xff5555, 0.5, 10);
+      miniVirus.add(pointLight);
 
+      virusGroup.add(orbit);
+      orbitViruses.push(orbit);
+    });
+  }
+
+  virusGroup.position.set(-20, 0, 0);
+  scene.add(virusGroup);
+});
+
+// Personal Computer (Apple iMac) + Linux + Windows XP
+loader.load('model/personal_computer.glb', (gltf) => {
+  const pc = gltf.scene;
+  pc.scale.set(30, 30, 30);
+  pcGroup.add(pc);
+  // Removed fixed position: pcGroup.position.set(-50, 0, 0);
+  scene.add(pcGroup);
+
+  // Linux
+  loader.load('model/linux-char.glb', (gltf2) => {
+    const linux = gltf2.scene;
+    linux.scale.set(5, 5, 5);
+    linux.position.set(8, 0, 0);
+    const orbit = new THREE.Group();
+    orbit.add(linux);
+    pcGroup.add(orbit);
+    orbitOS.push(orbit);
+  });
+
+  // Windows XP
+  loader.load('model/microsoft_windows_xp.glb', (gltf3) => {
+    const winxp = gltf3.scene;
+    winxp.scale.set(30, 30, 30);
+    winxp.position.set(-8, 0, 0);
+    const orbit = new THREE.Group();
+    orbit.add(winxp);
+    pcGroup.add(orbit);
+    orbitOS.push(orbit);
+  });
+});
+
+// Optional Torus
+const torus = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(8, 1.2, 100, 16),
+  new THREE.MeshStandardMaterial({ color: 0x8a2be2 })
+);
+scene.add(torus);
+
+// Scroll camera
 function moveCamera() {
   const t = document.body.getBoundingClientRect().top;
-  moon.rotation.x += 0.05;
-  moon.rotation.y += 0.075;
-  moon.rotation.z += 0.05;
-
-  jeff.rotation.y += 0.01;
-  jeff.rotation.z += 0.01;
-
+  avatar.rotation.y += 0.01;
+  avatar.rotation.z += 0.01;
   camera.position.z = t * -0.01;
   camera.position.x = t * -0.0002;
   camera.rotation.y = t * -0.0002;
 }
-
 document.body.onscroll = moveCamera;
 moveCamera();
 
-// Animation Loop
-
+let floatAngle = 0;
+// Animation loop
 function animate() {
   requestAnimationFrame(animate);
-
-  torus.rotation.x += 0.01;
+  torus.rotation.x += 0.005;
   torus.rotation.y += 0.005;
-  torus.rotation.z += 0.01;
 
-  moon.rotation.x += 0.005;
+  orbitViruses.forEach((group, idx) => {
+    group.rotation.y += 0.005 + idx * 0.001;
+  });
 
-  // controls.update();
+  orbitOS.forEach((group, idx) => {
+    group.rotation.y += 0.004 + idx * 0.001;
+  });
+
+  // Floating animation for the iMac group
+  floatAngle += 0.01;
+  pcGroup.position.x = 10 * Math.cos(floatAngle);
+  pcGroup.position.y = 5 * Math.sin(floatAngle * 2);
+  pcGroup.position.z = 10 * Math.sin(floatAngle);
+
+  // Optional rotation for pcGroup for nicer effect
+  pcGroup.rotation.y += 0.01;
+  pcGroup.rotation.x += 0.005;
 
   renderer.render(scene, camera);
 }
-
 animate();
+
+// Resize listener
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
