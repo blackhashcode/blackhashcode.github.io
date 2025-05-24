@@ -19,7 +19,7 @@ scene.add(pointLight);
 scene.add(new THREE.AmbientLight(0x404040, 2));
 
 // Background
-scene.background = new THREE.TextureLoader().load('space.jpg');
+scene.background = new THREE.TextureLoader().load('/space.jpg');
 
 // Stars
 function addStar() {
@@ -33,7 +33,7 @@ function addStar() {
 Array(300).fill().forEach(addStar);
 
 // Avatar (optional)
-const avatarTexture = new THREE.TextureLoader().load('im_uzi_2.png');
+const avatarTexture = new THREE.TextureLoader().load('/im_uzi_2.png');
 const avatar = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
@@ -49,14 +49,14 @@ const orbitViruses = [];
 const orbitOS = [];
 
 // Central Virus + Orbiting Viruses
-loader.load('model/virus.glb', (gltf) => {
+loader.load('/model/virus.glb', (gltf) => {
   const virusMain = gltf.scene;
   virusMain.scale.set(4, 4, 4);
   virusGroup.add(virusMain);
 
   for (let i = 0; i < 5; i++) {
     const orbit = new THREE.Group();
-    loader.load('model/virus.glb', (cloneGltf) => {
+    loader.load('/model/virus.glb', (cloneGltf) => {
       const miniVirus = cloneGltf.scene;
       miniVirus.scale.set(1.2, 1.2, 1.2);
       miniVirus.traverse((child) => {
@@ -84,7 +84,7 @@ loader.load('model/virus.glb', (gltf) => {
 });
 
 // Personal Computer (Apple iMac) + Linux + Windows XP
-loader.load('model/personal_computer.glb', (gltf) => {
+loader.load('/model/personal_computer.glb', (gltf) => {
   const pc = gltf.scene;
   pc.scale.set(30, 30, 30);
   pcGroup.add(pc);
@@ -103,7 +103,7 @@ loader.load('model/personal_computer.glb', (gltf) => {
   });
 
   // Windows XP
-  loader.load('model/microsoft_windows_xp.glb', (gltf3) => {
+  loader.load('/model/microsoft_windows_xp.glb', (gltf3) => {
     const winxp = gltf3.scene;
     winxp.scale.set(30, 30, 30);
     winxp.position.set(-8, 0, 0);
