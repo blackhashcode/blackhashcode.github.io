@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: 'blackhashcode.github.io'  // Adjust if this is your repo name
+  base: '/'  // Adjust if this is your repo name
 });
