@@ -5,14 +5,21 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "letters": "node scripts/build-letters.mjs"
   },
   "devDependencies": {
+    "@fontsource/noto-sans": "^5.3.0",
+    "@fontsource/noto-sans-bengali": "^5.3.0",
+    "@fontsource/noto-sans-jp": "^5.3.1",
     "@vitejs/plugin-react": "^4.5.0",
     "gh-pages": "^6.3.0",
+    "harfbuzzjs": "^1.6.3",
+    "polygon-clipping": "^0.15.7",
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "simple-icons": "^16.34.0",
     "three": "^0.128.0"
   }
 }

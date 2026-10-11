@@ -12,44 +12,69 @@
     <canvas id="bg"></canvas>   
 
     <main>
-      <header>
-        <h1><span class="console-prompt">></span> Tausif_Mushtaque<span class="blinking-cursor">_</span></h1>
+      <!-- the name itself is drawn in 3D on the canvas (letters.js) -->
+      <header class="hero">
+        <h1 class="sr-only">Tausif Mushtaque</h1>
         <h3 class="subtitle">// AKA: blackhashcode</h3>
+        <p class="scroll-hint"><span class="console-prompt">></span>scroll.down()<span class="blinking-cursor">_</span></p>
       </header>
 
-      <blockquote>
-        <code>/* why be a king when you can be a God? -Marshal Mathers */</code>
-      </blockquote>
+      <section id="about">
+        <h2>// About me</h2>
 
-      <section>
-        <h2>// About my narcissistic-self</h2>
+        <div class="uni">
+          <div class="uni-logo">
+            <img src="/nsu-logo.svg" alt="North South University logo">
+          </div>
+          <div>
+            <h3>North South University</h3>
+            <p>
+              <span class="keyword">const</span> degree = <span class="string">"BSc in Computer Science and Engineering"</span>;<br>
+              <span class="keyword">const</span> graduated = <span class="number">2025</span>;
+            </p>
+          </div>
+        </div>
+
         <p>
-          <span class="keyword">const</span> education = <span class="string">"Bachelors in Computer Science and Engineering"</span>;<br>
-          <span class="comment">/* This degree seems pretty cliche but oh well works good */</span><br>
-          <span class="keyword">const</span> major = <span class="string">"Machine Learning and Pattern Recognition in Neural Networks"</span>;<br>
-          <span class="keyword">const</span> minor = <span class="string">"Advanced Database Systems"</span>;
+          <span class="keyword">const</span> researchInterests = [<br>
+          &nbsp;&nbsp;<span class="string">"Machine Learning applications in bioinformatics (proteomics)"</span>,<br>
+          &nbsp;&nbsp;<span class="string">"Software development"</span><br>
+          ];
         </p>
 
         <p>
-          <span class="keyword">if</span> (grandFatherWants === <span class="string">"doctor"</span>) {<br>
-          &nbsp;&nbsp;<span class="keyword">throw</span> <span class="string">"BEING A DOCTOR IS A REALLY DIFFICULT JOB"</span>;<br>
-          } <span class="keyword">else</span> {<br>
-          &nbsp;&nbsp;<span class="keyword">let</span> currentPath = <span class="string">"Engineering"</span>;<br>
-          &nbsp;&nbsp;<span class="keyword">let</span> interest = <span class="string">"bioinformatics"</span>;<br>
-          }<br>
-          <span class="comment">/* It's kinda funny how now my interest lies mostly on bioinformatics */</span>
+          <span class="keyword">const</span> experience = [<br>
+          &nbsp;&nbsp;{ company: <span class="string">"Quantigo AI Bangladesh"</span> }<br>
+          ];
         </p>
+      </section>
 
-        <p>
-          <span class="keyword">function</span> describeMe() {<br>
-          &nbsp;&nbsp;<span class="keyword">return</span> {<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;trendMaker: <span class="boolean">true</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;trendFollower: <span class="boolean">true</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;stereotype: <span class="boolean">false</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;description: <span class="string">"Just a regular human being who never liked staying at home"</span><br>
-          &nbsp;&nbsp;}<br>
-          }
-        </p>
+      <!-- each .skill-slot is filled by a 3D icon on the canvas (skills.js) -->
+      <section class="skills" id="skills">
+        <h2>// Skills</h2>
+        <ul class="skill-grid">
+          <li class="skill" data-skill="python"><span class="skill-slot"></span><span class="skill-name">Python</span></li>
+          <li class="skill" data-skill="c"><span class="skill-slot"></span><span class="skill-name">C</span></li>
+          <li class="skill" data-skill="cplusplus"><span class="skill-slot"></span><span class="skill-name">C++</span></li>
+          <li class="skill" data-skill="javascript"><span class="skill-slot"></span><span class="skill-name">JavaScript</span></li>
+          <li class="skill" data-skill="php"><span class="skill-slot"></span><span class="skill-name">PHP</span></li>
+          <li class="skill" data-skill="pytorch"><span class="skill-slot"></span><span class="skill-name">PyTorch</span></li>
+          <li class="skill" data-skill="tensorflow"><span class="skill-slot"></span><span class="skill-name">TensorFlow</span></li>
+          <li class="skill" data-skill="scikitlearn"><span class="skill-slot"></span><span class="skill-name">scikit-learn</span></li>
+          <li class="skill" data-skill="pandas"><span class="skill-slot"></span><span class="skill-name">pandas</span></li>
+          <li class="skill" data-skill="seaborn"><span class="skill-slot"></span><span class="skill-name">seaborn</span></li>
+          <li class="skill" data-skill="opencv"><span class="skill-slot"></span><span class="skill-name">OpenCV</span></li>
+          <li class="skill" data-skill="react"><span class="skill-slot"></span><span class="skill-name">React</span></li>
+          <li class="skill" data-skill="nodejs"><span class="skill-slot"></span><span class="skill-name">Node.js</span></li>
+          <li class="skill" data-skill="django"><span class="skill-slot"></span><span class="skill-name">Django</span></li>
+          <li class="skill" data-skill="firebase"><span class="skill-slot"></span><span class="skill-name">Firebase</span></li>
+          <li class="skill" data-skill="mysql"><span class="skill-slot"></span><span class="skill-name">MySQL</span></li>
+          <li class="skill" data-skill="postgresql"><span class="skill-slot"></span><span class="skill-name">PostgreSQL</span></li>
+          <li class="skill" data-skill="mongodb"><span class="skill-slot"></span><span class="skill-name">MongoDB</span></li>
+          <li class="skill" data-skill="git"><span class="skill-slot"></span><span class="skill-name">Git</span></li>
+          <li class="skill" data-skill="linux"><span class="skill-slot"></span><span class="skill-name">Linux</span></li>
+          <li class="skill" data-skill="arduino"><span class="skill-slot"></span><span class="skill-name">Arduino</span></li>
+        </ul>
       </section>
 
       <section class="light">
@@ -83,10 +108,6 @@
         </div>
       </section>
 
-      <blockquote>
-        <code>/* " Loyalty is a two-way street. If I'm asking for it from you,then you're getting it from me " - Harvey Specter */</code>
-      </blockquote>
-
       <section class="right">
         <h2>// Education</h2>
 
@@ -107,12 +128,14 @@
         <h3>};</h3>
       </section>
 
-      <blockquote>
-        <code>/* Contact endpoints */</code><br><br>
-        <button onclick="window.open('https://www.linkedin.com/in/tausif-mushtaque-bab9ba1b8/')">linkedin.connect()</button><br>
-        <button onclick="window.open('https://www.instagram.com/tm_1x11/')">instagram.follow()</button><br><br>
-        <code>/* Project repositories */</code><br><br>
-        <button onclick="window.open('https://github.com/blackhashcode')">github.clone()</button>
+      <blockquote class="contact">
+        <code>/* Contact endpoints */</code>
+        <!-- each .skill-slot is filled by a 3D icon on the canvas (skills.js) -->
+        <div class="social">
+          <a class="skill" data-skill="linkedin" href="https://www.linkedin.com/in/tausif-mushtaque-bab9ba1b8/" target="_blank" rel="noopener"><span class="skill-slot"></span><span class="skill-name">LinkedIn</span></a>
+          <a class="skill" data-skill="instagram" href="https://www.instagram.com/tm_1x11/" target="_blank" rel="noopener"><span class="skill-slot"></span><span class="skill-name">Instagram</span></a>
+          <a class="skill" data-skill="github" href="https://github.com/blackhashcode" target="_blank" rel="noopener"><span class="skill-slot"></span><span class="skill-name">GitHub</span></a>
+        </div>
       </blockquote>
     </main>
     

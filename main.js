@@ -1,13 +1,17 @@
 import './style.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { createOverlay } from './overlay';
+import { createLetters } from './letters';
+import { createSkills } from './skills';
 
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true });
 
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.autoClear = false;
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 camera.position.setX(-3);
@@ -38,7 +42,7 @@ const avatar = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
-avatar.position.set(2, -2, -5);
+avatar.position.set(6, -3.5, -9); // off to the side, clear of the hero name
 scene.add(avatar);
 
 // Loaders and groups
@@ -133,6 +137,12 @@ function moveCamera() {
 document.body.onscroll = moveCamera;
 moveCamera();
 
+// Hero name + skill icons, drawn over the backdrop
+const overlay = createOverlay();
+const letters = createLetters(overlay);
+const skills = createSkills(overlay);
+const clock = new THREE.Clock();
+
 let floatAngle = 0;
 // Animation loop
 function animate() {
@@ -158,7 +168,14 @@ function animate() {
   pcGroup.rotation.y += 0.01;
   pcGroup.rotation.x += 0.005;
 
+  const dt = Math.min(clock.getDelta(), 1 / 30);
+  letters.update(dt, clock.elapsedTime);
+  skills.update(dt, clock.elapsedTime);
+
+  renderer.clear();
   renderer.render(scene, camera);
+  renderer.clearDepth();
+  renderer.render(overlay.scene, overlay.camera);
 }
 animate();
 
@@ -167,4 +184,6 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  overlay.resize();
+  letters.resize();
 });
